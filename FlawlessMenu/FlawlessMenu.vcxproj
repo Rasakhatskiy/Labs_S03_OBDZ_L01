@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\database\database.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\menu\menu.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\menu\mehu.h" />
+    <ClInclude Include="src\database\database.h" />
+    <ClInclude Include="src\menu\menu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -21,9 +21,15 @@
     <ClCompile Include="src\menu\menu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\database\database.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\menu\mehu.h">
+    <ClInclude Include="src\database\database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\menu\menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
