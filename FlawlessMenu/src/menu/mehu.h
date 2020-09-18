@@ -1,47 +1,65 @@
-#include "Menu.h"
+#ifndef MENU_H
+#define MENU_H
 
-void draw(struct Menu* menu)
+#define MAX_NUMBER_ITEMS 256
+#define MAX_STRING_SIZE 256
+
+#include <string.h>
+
+enum menu_button
 {
-	system("CLS");
+	menu_b_undefined = 0,
+	menu_b_up,
+	menu_b_down,
+	menu_b_select
+};
 
-	printf("%s", menu->filler);
-	printf("%s", menu->title);
-	printf("%s", menu->filler);
-
-	for (unsigned i = 0; i < menu->childrenSize; ++i)
-	{
-		if (menu->cursor == i)	
-			printf("%s", menu->selector);
-		else	
-			printf(" ");
-
-		printf("%s\n", menu->children[i]->item);
-	}
-}
-
-enum menu_button getButton()
+enum menu_type
 {
-	auto key = _getch();
+	menu_t_back = 1,
+	menu_t_exit,
+	menu_t_submenu
+};
 
-	if (key == 0x00 || 
-		key == 0xE0) 
-		key = _getch();
+struct Menu 
+{
+	//Title on the top of menu
+	char title[MAX_STRING_SIZE];
 
-	switch (key)
-	{
-		case 119: case 72:		return up;
-		case 115: case 80:		return down;
-		case 13:				return select;
-		default:				return undefined;
-	}
-}
+	//Submenu list
+	struct Menu* children[MAX_NUMBER_ITEMS];
+
+	//number of children
+	int size;
+
+	//Selector position in current menu
+	int position;
+
+	//Function for execute when selected
+	int (*function)(void);
+};
+
+void drawMenu(struct Menu* menu);
+
+enum menu_button getButton(void);
+
+int function_back(void); 
+int function_exit(void);
+int function_none(void);
+
+void addItem(struct Menu* menu, struct Menu* item);
+
+struct Menu* createMenu(char title[MAX_STRING_SIZE], int (*function)(void));
+
+void launchMenu(struct Menu* menu);
+/*
 
 void addSubmenuItem(struct Menu* menu, char menu_str[MAX_STRING_SIZE], struct Menu* menuAdd)
 {
 	strncpy_s(menuAdd->item, MAX_STRING_SIZE, menu_str, MAX_STRING_SIZE);
 	strncpy_s(menuAdd->children[menuAdd->childrenSize - 1]->item, MAX_STRING_SIZE, "Back\0", 5);
 	menuAdd->children[menuAdd->childrenSize - 1]->type = back;
-	
+
 	menu->children[menu->childrenSize++] = menuAdd;
 }
 
@@ -106,3 +124,5 @@ int startMenu(struct Menu* menu)
 		}
 	}
 }
+*/
+#endif
