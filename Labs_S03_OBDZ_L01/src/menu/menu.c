@@ -1,4 +1,4 @@
-#include "mehu.h"
+#include "menu.h"
 
 
 void drawMenu(struct Menu* menu)

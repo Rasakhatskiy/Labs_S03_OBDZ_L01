@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "menu/mehu.h"
+#include "menu/menu.h"
 
 void A()
 {
