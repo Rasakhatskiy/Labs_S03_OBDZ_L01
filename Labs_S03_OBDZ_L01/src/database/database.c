@@ -38,7 +38,7 @@ void loadIndexPage(unsigned int page, struct DataOffset* indexPage, int *indexPa
         return;
     }
 
-    struct DataOffset temp;
+    fseek(file, page * MAX_INDEX_PAGE_ENTRIES * sizeof(struct DataOffset), 0);
     *indexPageSize = -1;
 
     while (fread(
