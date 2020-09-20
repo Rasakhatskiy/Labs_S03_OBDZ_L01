@@ -29,22 +29,47 @@ void C()
 
 int main()
 {
-	struct Team* team = malloc(sizeof(struct Team));
-	strncpy(team->team_name, "a\0", MAX_STRING_SIZE);
-	strncpy(team->country_name, "Ukraine\0", MAX_STRING_SIZE);
-	strncpy(team->coach_name, "Main Moksym\0", MAX_STRING_SIZE);
-	strncpy(team->status, "Procrastinating\0", MAX_STRING_SIZE);
-	team->points = 47;
+	//struct Team* team = malloc(sizeof(struct Team));
+
 
 
 	loadIndexFiles();
-	printIndexPage(indexPagePlayer, sizeIndexPagePlayer);
+	printIndexPage(dataOffsetsTeam, sizeDataOffsetsTeam);
 
+
+	struct Team* team = get_m(0);
+	printTeam(team);
+
+	/*strncpy(team->team_name, "Big boss team ltd\0", MAX_STRING_NAME);
+	strncpy(team->country_name, "Ukraine\0", MAX_STRING_COUNTRY);
+	strncpy(team->coach_name, "Main Moksym\0", MAX_STRING_NAME);
+	strncpy(team->status, "Procrastinating\0", MAX_STRING_SIZE);
+	team->points = 47;
 	insert_m(team);
-	strncpy(team->team_name, "b\0", MAX_STRING_SIZE);
-	strncpy(team->country_name, "kekz\0", MAX_STRING_SIZE);
-	strncpy(team->coach_name, "loh Moksym\0", MAX_STRING_SIZE);
+	
+	strncpy(team->team_name, "jebrony nice ass team\0", MAX_STRING_NAME);
+	strncpy(team->country_name, "Moskovia\0", MAX_STRING_COUNTRY);
+	strncpy(team->coach_name, "Yakis sportsman\0", MAX_STRING_NAME);
+	strncpy(team->status, "Very long long long long long long long long long long long long long long long long long long long long long long long text\0", MAX_STRING_SIZE);
+	team->points = 10;
 	insert_m(team);
+
+	strncpy(team->team_name, "c\0", MAX_STRING_NAME);
+	strncpy(team->country_name, "c\0", MAX_STRING_COUNTRY);
+	strncpy(team->coach_name, "c\0", MAX_STRING_NAME);
+	strncpy(team->status, "c\0", MAX_STRING_SIZE);
+	team->points = 12;
+	insert_m(team);
+
+	strncpy(team->team_name, "d\0", MAX_STRING_NAME);
+	strncpy(team->country_name, "d\0", MAX_STRING_COUNTRY);
+	strncpy(team->coach_name, "d\0", MAX_STRING_NAME);
+	strncpy(team->status, "d\0", MAX_STRING_SIZE);
+	team->points = 13;
+	insert_m(team);*/
+
+
+
 	//addRecord_Team(team);
 
 	/*struct Player player;

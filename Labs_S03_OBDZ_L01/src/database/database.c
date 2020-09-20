@@ -20,21 +20,21 @@ void addRecord_Team(struct Team* team)
 
 void loadIndexFiles()
 {
-    indexPagePlayer = malloc(MAX_INDEX_PAGE_ENTRIES * sizeof(struct DataOffset));
-    indexPageTeam = malloc(MAX_INDEX_PAGE_ENTRIES * sizeof(struct DataOffset));
+    dataOffsetsPlayer = malloc(MAX_INDEX_PAGE_ENTRIES * sizeof(struct DataOffset));
+    dataOffsetsTeam = malloc(MAX_INDEX_PAGE_ENTRIES * sizeof(struct DataOffset));
 
     loadIndexFile(
-        indexPagePlayer, 
-        &sizeIndexPagePlayer, 
+        dataOffsetsPlayer, 
+        &sizeDataOffsetsPlayer, 
         PATH_TABLE_INDEX_PLAYER);
 
     loadIndexFile(
-        indexPageTeam, 
-        &sizeIndexPageTeam, 
+        dataOffsetsTeam, 
+        &sizeDataOffsetsTeam, 
         PATH_TABLE_INDEX_TEAM);
 }
 
-void loadIndexFile(struct DataOffset* indexPage, int *indexPageSize, char path[])
+void loadIndexFile(struct DataOffset* dataOffsets, int *sizeDataOffsets, char path[])
 {
     FILE* file = fopen(path, "rb");
 
@@ -45,10 +45,10 @@ void loadIndexFile(struct DataOffset* indexPage, int *indexPageSize, char path[]
     }
 
     //reset size
-    fread(indexPageSize, sizeof(unsigned int), 1, file);
+    fread(sizeDataOffsets, sizeof(unsigned int), 1, file);
 
     //if file is empty
-    if (indexPageSize == 0)
+    if (sizeDataOffsets == 0)
         return;
 
     unsigned int entriesRead = 0;
@@ -58,7 +58,7 @@ void loadIndexFile(struct DataOffset* indexPage, int *indexPageSize, char path[]
     //page size not read
     while (
         fread(
-            &indexPage[*indexPageSize], 
+            &dataOffsets[entriesRead++],
             sizeof(struct DataOffset), 
             1, 
             file) &&
@@ -89,7 +89,7 @@ void insert_m(struct Team* team)
     }
 
     //assign new id
-    team->id = sizeIndexPageTeam;
+    team->id = sizeDataOffsetsTeam;
 
     //seek to the end of file and save position as offset for new entry
     fseek(file, 0, SEEK_END);
@@ -98,22 +98,27 @@ void insert_m(struct Team* team)
     fclose(file);
 
     //fill correspond field in memory index array
-    indexPageTeam[sizeIndexPageTeam].index = sizeIndexPageTeam;
-    indexPageTeam[sizeIndexPageTeam].offset = offset;
-    sizeIndexPageTeam++;
+    dataOffsetsTeam[sizeDataOffsetsTeam].index = sizeDataOffsetsTeam;
+    dataOffsetsTeam[sizeDataOffsetsTeam].offset = offset;
+    sizeDataOffsetsTeam++;
     updateIndexFileTeam();
 }
 
 
 struct Team* get_m(unsigned int id)
 {
-    if (sizeIndexPageTeam == -1) 
+    //no data
+    if (sizeDataOffsetsTeam <= 0) 
         return NULL;
+    
+    //search through memory table of index
+    for (int i = 0; i < sizeDataOffsetsTeam; ++i)
+        if (dataOffsetsTeam[i].index == id)
+            return readTeamByOffset(dataOffsetsTeam[i].offset);
 
-    for (int i = 0; i < sizeIndexPageTeam; ++i)
-    {
-
-    }
+    //if not found
+    printf("Index %i from table Teams not found.\n", id);
+    return NULL;
 }
 
 struct Team* readTeamByOffset(unsigned int offset)
@@ -127,7 +132,7 @@ struct Team* readTeamByOffset(unsigned int offset)
     }
 
     //seek to needed element
-    fseek(file, offset, 0);
+    fseek(file, offset, SEEK_SET);
 
     struct Team* temp = malloc(sizeof(struct Team));
     fread(
@@ -136,7 +141,7 @@ struct Team* readTeamByOffset(unsigned int offset)
         1,
         file);
 
-    close(file);
+    fclose(file);
 
     return temp;
 }
@@ -165,10 +170,10 @@ void updateIndexFileTeam()
         printf("File %s not found.\n", PATH_TABLE_INDEX_TEAM);
         return;
     }
-    unsigned int trueSize = sizeIndexPageTeam;
+    unsigned int trueSize = sizeDataOffsetsTeam;
     fwrite(&trueSize, sizeof(unsigned int), 1, file);
     for (int i = 0; i < trueSize; ++i)
-        fwrite(&indexPageTeam[i], sizeof(struct DataOffset), 1, file);
+        fwrite(&dataOffsetsTeam[i], sizeof(struct DataOffset), 1, file);
 
     fclose(file);
 }

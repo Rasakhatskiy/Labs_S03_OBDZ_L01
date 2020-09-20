@@ -33,11 +33,11 @@ struct DataOffset
 	unsigned int index;
 };
 	
-struct DataOffset* indexPagePlayer;
-unsigned int sizeIndexPagePlayer;
+struct DataOffset* dataOffsetsPlayer;
+unsigned int sizeDataOffsetsPlayer;
 
-struct DataOffset* indexPageTeam;
-unsigned int sizeIndexPageTeam;
+struct DataOffset* dataOffsetsTeam;
+unsigned int sizeDataOffsetsTeam;
 
 struct Team
 {
