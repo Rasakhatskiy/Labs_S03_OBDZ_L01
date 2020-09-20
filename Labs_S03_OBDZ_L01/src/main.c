@@ -2,6 +2,8 @@
 
 #include "menu/menu.h"
 
+#include "database/database.h"
+
 void A()
 {
 	printf("A \n");
@@ -23,7 +25,20 @@ void C()
 
 int main()
 {
-	struct Menu* menu_main = createMenu("main menu\0", function_exit);
+	/*struct Player player;
+	player.id = 0;
+	player.player_number = 47;
+	strncpy_s(player.player_name, MAX_STRING_SIZE, "Maksym\0", MAX_STRING_SIZE);
+	strncpy_s(player.birthday, MAX_STRING_SIZE, "20.04.2000\0", MAX_STRING_SIZE);
+	player.gender = 1;
+	strncpy_s(player.status, MAX_STRING_SIZE, "характер скверный. не женат.\0", MAX_STRING_SIZE);
+	
+	addRecord_Player(player);*/
+
+	loadIndexPages();
+	printIndexPage(indexPagePlayer, indexPagePlayerSize);
+
+	/*struct Menu* menu_main = createMenu("main menu\0", function_exit);
 	struct Menu* menu_a = createMenu("A\0", A);
 	struct Menu* menu_b = createMenu("B\0", B);
 	struct Menu* menu_c = createMenu("C\0", C);
@@ -49,5 +64,5 @@ int main()
 	free(menu_a);
 	free(menu_b);
 	free(menu_c);
-	return 0;
+	return 0;*/
 }
