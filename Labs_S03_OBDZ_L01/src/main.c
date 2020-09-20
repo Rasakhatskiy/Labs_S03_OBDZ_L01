@@ -1,3 +1,7 @@
+#ifdef _WIN32
+#define _CRT_SECURE_NO_DEPRECATE
+#endif
+
 #include <stdio.h>
 
 #include "menu/menu.h"
@@ -25,6 +29,24 @@ void C()
 
 int main()
 {
+	struct Team* team = malloc(sizeof(struct Team));
+	strncpy(team->team_name, "a\0", MAX_STRING_SIZE);
+	strncpy(team->country_name, "Ukraine\0", MAX_STRING_SIZE);
+	strncpy(team->coach_name, "Main Moksym\0", MAX_STRING_SIZE);
+	strncpy(team->status, "Procrastinating\0", MAX_STRING_SIZE);
+	team->points = 47;
+
+
+	loadIndexFiles();
+	printIndexPage(indexPagePlayer, sizeIndexPagePlayer);
+
+	insert_m(team);
+	strncpy(team->team_name, "b\0", MAX_STRING_SIZE);
+	strncpy(team->country_name, "kekz\0", MAX_STRING_SIZE);
+	strncpy(team->coach_name, "loh Moksym\0", MAX_STRING_SIZE);
+	insert_m(team);
+	//addRecord_Team(team);
+
 	/*struct Player player;
 	player.id = 0;
 	player.player_number = 47;
@@ -35,8 +57,7 @@ int main()
 	
 	addRecord_Player(player);*/
 
-	loadIndexPages();
-	printIndexPage(indexPagePlayer, indexPagePlayerSize);
+	
 
 	/*struct Menu* menu_main = createMenu("main menu\0", function_exit);
 	struct Menu* menu_a = createMenu("A\0", A);
