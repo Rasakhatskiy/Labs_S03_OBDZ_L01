@@ -59,6 +59,7 @@ struct Player
 	char status[MAX_STRING_SIZE];
 };
 
+//temp, must be deleted
 void addRecord_Player(struct Player player);
 void addRecord_Team(struct Team* team);
 

@@ -139,13 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\input\input.c" />
     <ClCompile Include="src\database\database.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\menu\menu.c" />
+    <ClCompile Include="src\input\validator.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\input\input.h" />
     <ClInclude Include="src\database\database.h" />
     <ClInclude Include="src\menu\menu.h" />
+    <ClInclude Include="src\input\validator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

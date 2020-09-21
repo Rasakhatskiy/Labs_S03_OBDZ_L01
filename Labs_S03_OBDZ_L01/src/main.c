@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #include "menu/menu.h"
-
+#include "input/validator.h"
 #include "database/database.h"
 
 void A()
@@ -29,6 +29,11 @@ void C()
 
 int main()
 {
+	printf("enter digit:\n");
+	unsigned int digit = readUInt32();
+	printf("your digit: %i\n", digit);
+	return 0;
+
 	//struct Team* team = malloc(sizeof(struct Team));
 
 
