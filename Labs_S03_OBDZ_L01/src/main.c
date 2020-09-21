@@ -29,9 +29,9 @@ void C()
 
 int main()
 {
-	printf("enter digit:\n");
-	unsigned int digit = readUInt32();
-	printf("your digit: %i\n", digit);
+	printf("enter string:\n");
+	char* string = readString(15);
+	printf("your string: %s\n", string);
 	return 0;
 
 	//struct Team* team = malloc(sizeof(struct Team));

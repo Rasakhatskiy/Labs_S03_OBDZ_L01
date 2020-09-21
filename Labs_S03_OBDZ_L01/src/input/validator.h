@@ -18,7 +18,8 @@
 // Reads unsigned int from console. Reads input until input is invalid. Ctrl + C exits the programm;
 unsigned int readUInt32();
 
-
+// Reads string with length maxLength from console. Reads input until input is invalid. Ctrl + C exits the programm;
+char* readString(int maxLength);
 
 
 #endif // !VALIDATOR_H

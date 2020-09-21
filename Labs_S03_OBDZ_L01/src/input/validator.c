@@ -24,7 +24,10 @@ unsigned int readUInt32()
             if (!strchr(input, '\n'))
             {
                 // input too long
-                while (fgets(input, sizeof input, stdin) && !strchr(input, '\n'));
+                while (
+                    fgets(input, sizeof input, stdin) &&
+                    !strchr(input, '\n'));
+                printf("Input is too long. Try again please.\n");
             }
             else
             {
@@ -45,6 +48,43 @@ unsigned int readUInt32()
                 {
                     printf("It is not a valid integer input. Try again please.\n");
                 }
+            }
+        }
+    }
+}
+
+char* readString(int maxLength)
+{
+    char* input = malloc(maxLength);
+
+    // omg what have i done
+    while (1)
+    {
+        printf("> ");
+        if (!fgets(input, maxLength, stdin))
+        {
+            // read error on input - panic
+            exit(-1);
+        }
+        else
+        {
+            /**
+                * Make sure the user didn't enter a string longer than the buffer
+                * was sized to hold by looking for a newline character.  If a newline
+                * isn't present, we reject the input and read from the stream until
+                * we see a newline or get an error.
+                */
+            if (!strchr(input, '\n'))
+            {
+                // input too long
+                while (
+                    fgets(input, maxLength, stdin) &&
+                    !strchr(input, '\n'));
+                printf("Input is too long. Try again please.\n");
+            }
+            else
+            {
+                return input;
             }
         }
     }
