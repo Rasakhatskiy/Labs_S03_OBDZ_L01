@@ -79,6 +79,8 @@ void printIndexPage(struct DataOffset* indexPage, int indexPageSize)
         printf("index: %i\toffset:%i\n", indexPage[i].index, indexPage[i].offset);
 }
 
+
+
 void insert_m(struct Team* team)
 {
     FILE* file = fopen(PATH_TABLE_TEAM, "ab+");
@@ -103,7 +105,6 @@ void insert_m(struct Team* team)
     sizeDataOffsetsTeam++;
     updateIndexFileTeam();
 }
-
 
 struct Team* get_m(unsigned int id)
 {
@@ -162,6 +163,50 @@ void printTeam(struct Team* team)
         team->points);
 }
 
+
+
+
+void insert_s(struct Player* player)
+{
+    if (!isIndexTeamExists(player->team_id))
+    {
+        printf("Team [%i] not found.\n", player->team_id);
+        return;
+    }
+
+    FILE* file = fopen(PATH_TABLE_PLAYER, "ab+");
+    if (!file)
+    {
+        printf("File %s not found.\n", PATH_TABLE_PLAYER);
+        return;
+    }
+
+    // assign new id
+    player->id = sizeDataOffsetsPlayer;
+
+    //seek to the end of file and save position as offset for new entry
+    fseek(file, 0, SEEK_END);
+    unsigned int offset = ftell(file);
+    fwrite(player, sizeof(struct Team), 1, file);
+    fclose(file);
+
+    //fill correspond field in memory index array
+    dataOffsetsPlayer[sizeDataOffsetsPlayer].index = sizeDataOffsetsPlayer;
+    dataOffsetsPlayer[sizeDataOffsetsPlayer].offset = offset;
+    sizeDataOffsetsPlayer++;
+    updateIndexFilePlayer();
+}
+
+int isIndexTeamExists(int index)
+{
+    for (int i = 0; i < sizeDataOffsetsTeam; ++i)
+        if (dataOffsetsTeam[i].index == index)
+            return 1;
+    return 0;
+}
+
+
+
 void updateIndexFileTeam()
 {
     FILE* file = fopen(PATH_TABLE_INDEX_TEAM, "wb");
@@ -178,3 +223,18 @@ void updateIndexFileTeam()
     fclose(file);
 }
 
+void updateIndexFilePlayer()
+{
+    FILE* file = fopen(PATH_TABLE_INDEX_PLAYER, "wb");
+    if (!file)
+    {
+        printf("File %s not found.\n", PATH_TABLE_INDEX_PLAYER);
+        return;
+    }
+    unsigned int trueSize = sizeDataOffsetsPlayer;
+    fwrite(&trueSize, sizeof(unsigned int), 1, file);
+    for (int i = 0; i < trueSize; ++i)
+        fwrite(&dataOffsetsPlayer[i], sizeof(struct DataOffset), 1, file);
+
+    fclose(file);
+}

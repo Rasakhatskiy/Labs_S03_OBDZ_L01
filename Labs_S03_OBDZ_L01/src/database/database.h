@@ -53,6 +53,7 @@ struct Player
 {
 	unsigned int id;
 	unsigned int player_number;
+	unsigned int team_id;
 	char player_name[MAX_STRING_NAME];
 	char birthday[MAX_STRING_DATE];
 	char gender;
@@ -72,23 +73,37 @@ void loadIndexFile(struct DataOffset* indexPage, int* indexPageSize, char path[]
 //prints loaded to memory index-offset table
 void printIndexPage(struct DataOffset* indexPage, int indexPageSize);
 
-//reads master element(Team) by id
-struct Team* get_m(unsigned int id);
+
 
 //adds new team to data base
 void insert_m(struct Team* team);
 
+//reads master element(Team) by id
+struct Team* get_m(unsigned int id);
+
 //reads team in data file by offset
 struct Team* readTeamByOffset(unsigned int offset);
 
-//prints team on screen
+// prints team on screen
 void printTeam(struct Team* team);
 
-//writes index-offset table from memory to file
+
+
+
+// adds new player to database
+void insert_s(struct Player* player); 
+
+// checks if team with given index exists
+int isIndexTeamExists(int index);
+
+
+
+// writes index-offset table from memory to file
 void updateIndexFileTeam();
 
-//writes index-offset table from memory to file
+// writes index-offset table from memory to file
 void updateIndexFilePlayer();
+
 
 #endif // !DATABASE_H
 
