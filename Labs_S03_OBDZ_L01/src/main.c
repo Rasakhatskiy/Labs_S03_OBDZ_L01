@@ -31,19 +31,20 @@ int main()
 {
 	//struct Team* team = malloc(sizeof(struct Team));
 
-	struct Player* t1 = readPlayer();
-
-	printPlayer(t1);
-	return 0;
 
 	loadIndexFiles();
 	//printIndexPage(dataOffsetsTeam, sizeDataOffsetsTeam);
 
 
 	struct Team* team = get_m(0);
-	//printTeam(team);
+	printTeam(team);
 
-	struct Player* player = get_s(0);/*malloc(sizeof(struct Player));
+	editTeam(0);
+
+	team = get_m(0);
+	printTeam(team);
+
+	/*struct Player* player = get_s(0);malloc(sizeof(struct Player));
 	strncpy(player->birthday, "20.04.2000\0", MAX_STRING_DATE);
 	player->team_id = 1;
 	player->gender = 1;
@@ -51,7 +52,7 @@ int main()
 	strncpy(player->player_name, "Maksym Maksym Maksym\0", MAX_STRING_NAME);
 	strncpy(player->status, "krutgfk fgh fsdgjy g ;e fdhuf kdl hsfdf dsfk jsdkf  fhd  djfhdjf hd f dfhhfh fh\0", MAX_STRING_SIZE);*/
 	
-	printPlayer(player);
+	//printPlayer(player);
 	//insert_s(player);
 
 	/*strncpy(team->team_name, "Big boss team ltd\0", MAX_STRING_NAME);

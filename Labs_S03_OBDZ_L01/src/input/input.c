@@ -47,8 +47,80 @@ struct Player* readPlayer()
     return player;
 }
 
-void editTeam(struct Team* team)
+
+/*
+struct Team
 {
+    unsigned int id;
+    char team_name[MAX_STRING_TITLE];		//1
+    char country_name[MAX_STRING_COUNTRY];	//2
+    char coach_name[MAX_STRING_NAME];		//3
+    char status[MAX_STRING_SIZE];			//4
+    unsigned int points;					//5
+};
+
+struct Player
+{
+    unsigned int id;
+    unsigned int player_number;				//1
+    unsigned int team_id;					//2
+    char player_name[MAX_STRING_NAME];		//3
+    char birthday[MAX_STRING_DATE];			//4
+    char gender;							//5
+    char status[MAX_STRING_SIZE];			//6
+};
+*/
+
+void editTeam(unsigned int id)
+{
+    struct Team* team = get_m(id);
+    if (!team) return;
+
+    int result = 1;
+
+    while (result >= 1 &&
+           result <= 5)
+    {
+        printf(
+            "\nEdit field:\n"
+            "# 1 Name\n"
+            "# 2 Country\n"
+            "# 3 Coach\n"
+            "# 4 Status\n"
+            "# 5 Points\n"
+            "# any other number to cancel.\n");
+
+        result = readUInt32();
+
+        switch (result)
+        {
+            case 1: 
+                printf("\nEnter team name (max %i symbols):\n", MAX_STRING_TITLE);
+                strncpy(team->team_name, readString(MAX_STRING_TITLE), MAX_STRING_TITLE);
+                break;
+            case 2:
+                printf("\nEnter country name (max %i symbols):\n", MAX_STRING_NAME);
+                strncpy(team->country_name, readString(MAX_STRING_NAME), MAX_STRING_NAME);
+                break;
+            case 3:
+                printf("\nEnter coach name (max %i symbols):\n", MAX_STRING_NAME);
+                strncpy(team->coach_name, readString(MAX_STRING_NAME), MAX_STRING_NAME);
+                break;
+            case 4:
+                printf("\nEnter status (max %i symbols):\n", MAX_STRING_SIZE);
+                strncpy(team->status, readString(MAX_STRING_SIZE), MAX_STRING_SIZE);
+                break;
+            case 5:
+                printf("\nEnter number of points :\n");
+                team->points = readUInt32();
+                break;
+            default:
+                printf("\nCancelled.\n");
+                break;
+        }
+    }
+    update_m(team);
+    free(team);
 }
 
 void editPlayer(struct Player* player)

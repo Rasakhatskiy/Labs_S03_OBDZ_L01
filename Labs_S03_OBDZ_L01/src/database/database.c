@@ -1,23 +1,5 @@
 #include "database.h"
 
-void addRecord_Player(struct Player player)
-{
-	FILE* write_ptr;
-    write_ptr = fopen(PATH_TABLE_TEAM, "wb");
-    fwrite(&player, sizeof(struct Player), 1, write_ptr);
-    fclose(write_ptr);
-
-	
-}
-
-void addRecord_Team(struct Team* team)
-{
-    FILE* write_ptr;
-    write_ptr = fopen(PATH_TABLE_TEAM, "wb");
-    fwrite(team, sizeof(struct Team), 1, write_ptr);
-    fclose(write_ptr);
-}
-
 void loadIndexFiles()
 {
     dataOffsetsPlayer = malloc(MAX_INDEX_PAGE_ENTRIES * sizeof(struct DataOffset));
@@ -104,6 +86,33 @@ void insert_m(struct Team* team)
     dataOffsetsTeam[sizeDataOffsetsTeam].offset = offset;
     sizeDataOffsetsTeam++;
     updateIndexFileTeam();
+}
+
+void update_m(struct Team* team)
+{
+    FILE* file = fopen(PATH_TABLE_TEAM, "wb+");
+    if (!file)
+    {
+        printf("File %s not found.\n", PATH_TABLE_TEAM);
+        return;
+    }
+
+    //get offset and check it existance
+    unsigned int offset = 0xFFFFFFFF;
+    for (int i = 0; i < sizeDataOffsetsTeam; ++i)
+        if (dataOffsetsTeam[i].index == team->id)
+            offset = dataOffsetsTeam[i].offset;
+
+    if (offset == 0xFFFFFFFF)
+    {
+        printf("Team %i not found.\n", team->id);
+        return;
+    }
+
+    //seek to the needed offset and write here
+    fseek(file, offset, SEEK_SET);
+    fwrite(team, sizeof(struct Team), 1, file);
+    fclose(file);
 }
 
 struct Team* get_m(unsigned int id)

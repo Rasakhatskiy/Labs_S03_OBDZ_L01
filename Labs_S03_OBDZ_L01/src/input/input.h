@@ -15,10 +15,11 @@ struct Team* readTeam();
 struct Player* readPlayer();
 
 //edit team object from console
-void editTeam(struct Team* team);
+void editTeam(unsigned int id);
 
 //edit player object from console
 void editPlayer(struct Player* player);
+
 
 #endif // !INPUT_H
 

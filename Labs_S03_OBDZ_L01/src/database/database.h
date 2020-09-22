@@ -42,27 +42,23 @@ unsigned int sizeDataOffsetsTeam;
 struct Team
 {
 	unsigned int id;
-	char team_name[MAX_STRING_TITLE];
-	char country_name[MAX_STRING_COUNTRY];
-	char coach_name[MAX_STRING_NAME];
-	char status[MAX_STRING_SIZE];
-	unsigned int points;
+	char team_name[MAX_STRING_TITLE];		//1
+	char country_name[MAX_STRING_COUNTRY];	//2
+	char coach_name[MAX_STRING_NAME];		//3
+	char status[MAX_STRING_SIZE];			//4
+	unsigned int points;					//5
 };
 
 struct Player 
 {
-	unsigned int id;
-	unsigned int player_number;
-	unsigned int team_id;
-	char player_name[MAX_STRING_NAME];
-	char birthday[MAX_STRING_DATE];
-	char gender;
-	char status[MAX_STRING_SIZE];
+	unsigned int id;						
+	unsigned int player_number;				//1
+	unsigned int team_id;					//2
+	char player_name[MAX_STRING_NAME];		//3
+	char birthday[MAX_STRING_DATE];			//4
+	char gender;							//5
+	char status[MAX_STRING_SIZE];			//6
 };
-
-//temp, must be deleted
-void addRecord_Player(struct Player player);
-void addRecord_Team(struct Team* team);
 
 //allocates memory and reads index pages for tables
 void loadIndexFiles();
@@ -77,6 +73,9 @@ void printIndexPage(struct DataOffset* indexPage, int indexPageSize);
 
 //adds new team to data base
 void insert_m(struct Team* team);
+
+//allows to edit database entry
+void update_m(unsigned int id);
 
 //reads master element(Team) by id
 struct Team* get_m(unsigned int id);
