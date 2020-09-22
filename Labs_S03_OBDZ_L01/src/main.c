@@ -27,41 +27,18 @@ void C()
 	getButton();
 }
 
-int main()
+
+void demoInsertTeams()
 {
-	//struct Team* team = malloc(sizeof(struct Team));
+	struct Team* team = malloc(sizeof(struct Team));
 
-
-	loadIndexFiles();
-	//printIndexPage(dataOffsetsTeam, sizeDataOffsetsTeam);
-
-
-	struct Team* team = get_m(0);
-	printTeam(team);
-
-	editTeam(0);
-
-	team = get_m(0);
-	printTeam(team);
-
-	/*struct Player* player = get_s(0);malloc(sizeof(struct Player));
-	strncpy(player->birthday, "20.04.2000\0", MAX_STRING_DATE);
-	player->team_id = 1;
-	player->gender = 1;
-	player->player_number = 22;
-	strncpy(player->player_name, "Maksym Maksym Maksym\0", MAX_STRING_NAME);
-	strncpy(player->status, "krutgfk fgh fsdgjy g ;e fdhuf kdl hsfdf dsfk jsdkf  fhd  djfhdjf hd f dfhhfh fh\0", MAX_STRING_SIZE);*/
-	
-	//printPlayer(player);
-	//insert_s(player);
-
-	/*strncpy(team->team_name, "Big boss team ltd\0", MAX_STRING_NAME);
+	strncpy(team->team_name, "Big boss team ltd\0", MAX_STRING_NAME);
 	strncpy(team->country_name, "Ukraine\0", MAX_STRING_COUNTRY);
 	strncpy(team->coach_name, "Main Moksym\0", MAX_STRING_NAME);
 	strncpy(team->status, "Procrastinating\0", MAX_STRING_SIZE);
 	team->points = 47;
 	insert_m(team);
-	
+
 	strncpy(team->team_name, "jebrony nice ass team\0", MAX_STRING_NAME);
 	strncpy(team->country_name, "Moskovia\0", MAX_STRING_COUNTRY);
 	strncpy(team->coach_name, "Yakis sportsman\0", MAX_STRING_NAME);
@@ -81,23 +58,65 @@ int main()
 	strncpy(team->coach_name, "d\0", MAX_STRING_NAME);
 	strncpy(team->status, "d\0", MAX_STRING_SIZE);
 	team->points = 13;
-	insert_m(team);*/
+	insert_m(team);
+}
+
+void demoInsertPlayer()
+{
+	struct Player* player = malloc(sizeof(struct Player));
+
+	strncpy(player->birthday, "20.04.2000\0", MAX_STRING_DATE);
+	player->team_id = 1;
+	player->gender = 1;
+	player->player_number = 22;
+	strncpy(player->player_name, "Maksym Maksym Maksym\0", MAX_STRING_NAME);
+	strncpy(player->status, "krutgfk fgh fsdgjy g ;e fdhuf kdl hsfdf dsfk jsdkf  fhd  djfhdjf hd f dfhhfh fh\0", MAX_STRING_SIZE);
+	insert_s(player);
+
+	strncpy(player->birthday, "99.99.9999\0", MAX_STRING_DATE);
+	player->team_id = 0;
+	player->gender = 0;
+	player->player_number = 14;
+	strncpy(player->player_name, "Olga\0", MAX_STRING_NAME);
+	strncpy(player->status, "ssdkfdfg gggggggggggg fh\0", MAX_STRING_SIZE);
+	insert_s(player);
+
+	strncpy(player->birthday, "88/88/8888\0", MAX_STRING_DATE);
+	player->team_id = 2;
+	player->gender = 0;
+	player->player_number = 123;
+	strncpy(player->player_name, "Keksik\0", MAX_STRING_NAME);
+	strncpy(player->status, "Eating keks\0", MAX_STRING_SIZE);
+	insert_s(player);
+}
+
+int main()
+{
+	//struct Team* team = malloc(sizeof(struct Team));
 
 
+	loadIndexFiles();
 
-	//addRecord_Team(team);
+	//demoInsertPlayer();
+	//demoInsertTeams();
+	//printIndexPage(dataOffsetsTeam, sizeDataOffsetsTeam);
 
-	/*struct Player player;
-	player.id = 0;
-	player.player_number = 47;
-	strncpy_s(player.player_name, MAX_STRING_SIZE, "Maksym\0", MAX_STRING_SIZE);
-	strncpy_s(player.birthday, MAX_STRING_SIZE, "20.04.2000\0", MAX_STRING_SIZE);
-	player.gender = 1;
-	strncpy_s(player.status, MAX_STRING_SIZE, "характер скверный. не женат.\0", MAX_STRING_SIZE);
+	//struct Team* t;
+	//for (int i = 0; i < 3; ++i)
+	//{
+	//	t = get_m(i);
+	//	printTeam(t);
+	//	//editTeam(i);
+	//}
 	
-	addRecord_Player(player);*/
 
-	
+	struct Player* player;
+	for (int i = 0; i < 3; ++i)
+	{
+		player = get_s(i);
+		printPlayer(player);
+		//editPlayer(i);
+	}
 
 	/*struct Menu* menu_main = createMenu("main menu\0", function_exit);
 	struct Menu* menu_a = createMenu("A\0", A);

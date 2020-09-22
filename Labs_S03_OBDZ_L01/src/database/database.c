@@ -90,7 +90,7 @@ void insert_m(struct Team* team)
 
 void update_m(struct Team* team)
 {
-    FILE* file = fopen(PATH_TABLE_TEAM, "wb+");
+    FILE* file = fopen(PATH_TABLE_TEAM, "rb+");
     if (!file)
     {
         printf("File %s not found.\n", PATH_TABLE_TEAM);
@@ -158,7 +158,7 @@ struct Team* readTeamByOffset(unsigned int offset)
 
 void printTeam(struct Team* team)
 {
-    printf("========== Team %s ==========\n", team->team_name);
+    printf("\n========== Team %s ==========\n", team->team_name);
     printf(
         "# [%i]\n"
         "# Country\t%s\n"
@@ -204,6 +204,33 @@ void insert_s(struct Player* player)
     dataOffsetsPlayer[sizeDataOffsetsPlayer].offset = offset;
     sizeDataOffsetsPlayer++;
     updateIndexFilePlayer();
+}
+
+void update_s(struct Player* player)
+{
+    FILE* file = fopen(PATH_TABLE_PLAYER, "rb+");
+    if (!file)
+    {
+        printf("File %s not found.\n", PATH_TABLE_PLAYER);
+        return;
+    }
+
+    //get offset and check it existance
+    unsigned int offset = 0xFFFFFFFF;
+    for (int i = 0; i < sizeDataOffsetsPlayer; ++i)
+        if (dataOffsetsPlayer[i].index == player->id)
+            offset = dataOffsetsPlayer[i].offset;
+
+    if (offset == 0xFFFFFFFF)
+    {
+        printf("Player %i not found.\n", player->id);
+        return;
+    }
+
+    //seek to the needed offset and write here
+    fseek(file, offset, SEEK_SET);
+    fwrite(player, sizeof(struct Player), 1, file);
+    fclose(file);
 }
 
 int isIndexTeamExists(int index)
@@ -261,7 +288,7 @@ void printPlayer(struct Player* player)
 {
     struct Team* team = get_m(player->team_id);
 
-    printf("========== Player %s ==========\n", player->player_name);
+    printf("\n========== Player %s ==========\n", player->player_name);
     printf(
         "# [%i]\n"
         "# Number   \t%i\n"

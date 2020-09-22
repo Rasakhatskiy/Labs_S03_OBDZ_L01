@@ -75,7 +75,7 @@ void printIndexPage(struct DataOffset* indexPage, int indexPageSize);
 void insert_m(struct Team* team);
 
 //allows to edit database entry
-void update_m(unsigned int id);
+void update_m(struct Team* team);
 
 //reads master element(Team) by id
 struct Team* get_m(unsigned int id);
@@ -91,6 +91,9 @@ void printTeam(struct Team* team);
 
 // adds new player to database
 void insert_s(struct Player* player); 
+
+//allows to edit database entry
+void update_s(struct Player* player);
 
 // checks if team with given index exists
 int isIndexTeamExists(int index);

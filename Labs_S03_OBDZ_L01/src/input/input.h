@@ -18,7 +18,7 @@ struct Player* readPlayer();
 void editTeam(unsigned int id);
 
 //edit player object from console
-void editPlayer(struct Player* player);
+void editPlayer(unsigned int id);
 
 
 #endif // !INPUT_H

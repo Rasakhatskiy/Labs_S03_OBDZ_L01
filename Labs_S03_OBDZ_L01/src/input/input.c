@@ -33,7 +33,15 @@ struct Player* readPlayer()
     player->player_number = readUInt32();
 
     printf("\nEnter team id:\n");
-    player->team_id = readUInt32();
+    while (1)
+    {
+        player->team_id = readUInt32();
+        if (isIndexTeamExists(player->team_id))
+            break;
+        else
+            printf("Team id %i doesn't exists.\n");
+    }
+
 
     printf("\nEnter birthday (dd.mm.yyyy) (max %i symbols):\n", MAX_STRING_DATE);
     strncpy(player->birthday, readString(MAX_STRING_DATE), MAX_STRING_DATE);
@@ -78,8 +86,9 @@ void editTeam(unsigned int id)
 
     int result = 1;
 
-    while (result >= 1 &&
-           result <= 5)
+    while (
+        result >= 1 &&
+        result <= 5)
     {
         printf(
             "\nEdit field:\n"
@@ -123,6 +132,67 @@ void editTeam(unsigned int id)
     free(team);
 }
 
-void editPlayer(struct Player* player)
+void editPlayer(unsigned int id)
 {
+    struct Player* player = get_s(id);
+    if (!player) return;
+
+    int result = 1;
+
+    while (
+        result >= 1 &&
+        result <= 5)
+    {
+        printf(
+            "\nEdit field:\n"
+            "# 1 Name\n"
+            "# 2 Number\n"
+            "# 3 Team id\n"
+            "# 4 Birthday\n"
+            "# 5 Status\n"
+            "# 6 Gender\n"
+            "# any other number to cancel.\n");
+
+        result = readUInt32();
+
+        switch (result)
+        {
+            case 1:
+                printf("\nEnter player name (max %i symbols):\n", MAX_STRING_NAME);
+                strncpy(player->player_name, readString(MAX_STRING_NAME), MAX_STRING_NAME);
+                break;
+            case 2:
+                printf("\nEnter player number:\n");
+                player->player_number = readUInt32();
+                break;
+            case 3:
+                printf("\nEnter team id:\n");
+                while (1)
+                {
+                    player->team_id = readUInt32();
+                    if (isIndexTeamExists(player->team_id))
+                        break;
+                    else
+                        printf("Team id %i doesn't exists.\n", player->team_id);
+                }
+                break;
+            case 4:
+                printf("\nEnter birthday (dd.mm.yyyy) (max %i symbols):\n", MAX_STRING_DATE);
+                strncpy(player->birthday, readString(MAX_STRING_DATE), MAX_STRING_DATE);
+                break;
+            case 5:
+                printf("\nEnter status (max %i symbols):\n", MAX_STRING_SIZE);
+                strncpy(player->status, readString(MAX_STRING_SIZE), MAX_STRING_SIZE);
+                break;
+            case 6:
+                printf("\nEnter gender (0/1) (female/male) :\n");
+                player->gender = readUInt32();
+                break;
+            default:
+                printf("\nCancelled.\n");
+                break;
+        }
+    }
+    update_s(player);
+    free(player);
 }
