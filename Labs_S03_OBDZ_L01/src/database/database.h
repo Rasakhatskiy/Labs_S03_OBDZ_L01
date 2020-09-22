@@ -11,7 +11,7 @@
 #define MAX_STRING_TITLE 128
 #define MAX_STRING_COUNTRY 32
 #define MAX_STRING_NAME 32
-#define MAX_STRING_DATE 11
+#define MAX_STRING_DATE 12
 #define MAX_STRING_SIZE 256
 
 
@@ -96,8 +96,10 @@ void insert_s(struct Player* player);
 // checks if team with given index exists
 int isIndexTeamExists(int index);
 
+//reads slave element(Player) by id
 struct Player* get_s(unsigned int id);
 
+//reads player in data file by offset
 struct Player* readPlayerByOffset(unsigned int offset);
 
 void printPlayer(struct Player* player);
@@ -107,6 +109,10 @@ void updateIndexFileTeam();
 
 // writes index-offset table from memory to file
 void updateIndexFilePlayer();
+
+
+// reads team by id, offers to edit it, and updates in file
+void update_m(unsigned int id);
 
 
 #endif // !DATABASE_H

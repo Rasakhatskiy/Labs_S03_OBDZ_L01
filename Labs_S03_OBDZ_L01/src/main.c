@@ -5,8 +5,8 @@
 #include <stdio.h>
 
 #include "menu/menu.h"
-#include "input/validator.h"
 #include "database/database.h"
+#include "input/input.h"
 
 void A()
 {
@@ -31,7 +31,10 @@ int main()
 {
 	//struct Team* team = malloc(sizeof(struct Team));
 
+	struct Player* t1 = readPlayer();
 
+	printPlayer(t1);
+	return 0;
 
 	loadIndexFiles();
 	//printIndexPage(dataOffsetsTeam, sizeDataOffsetsTeam);

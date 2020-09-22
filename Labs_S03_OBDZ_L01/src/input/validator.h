@@ -11,14 +11,19 @@
 
 // maximum number of digits for your target data type;
 // unsigned int 10
-#define DIGITS 10
+#define DIGITS_INT_32 10
 // Account for sign character, newline, and 0 terminator
-#define BUFSIZ (DIGITS)+3 
+#define BUFFER_SIZE_INT_32 (DIGITS_INT_32)+3 
 
-// Reads unsigned int from console. Reads input until input is invalid. Ctrl + C exits the programm;
+// unsigned int 10
+#define DIGITS_INT_8 2
+// Account for sign character, newline, and 0 terminator
+#define BUFFER_SIZE_INT_8 (DIGITS_INT_8)+3 
+
+// Reads unsigned int from console. Reads input until input is invalid. Ctrl + C exits the program;
 unsigned int readUInt32();
 
-// Reads string with length maxLength from console. Reads input until input is invalid. Ctrl + C exits the programm;
+// Reads string with length maxLength from console. Reads input until input is invalid. Ctrl + C exits the program;
 char* readString(int maxLength);
 
 

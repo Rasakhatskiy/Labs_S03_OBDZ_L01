@@ -6,9 +6,19 @@
 #endif
 
 #include "../database/database.h"
+#include "../input/validator.h"
 
 // Enter Team from console
 struct Team* readTeam();
+
+//Enter player from console
+struct Player* readPlayer();
+
+//edit team object from console
+void editTeam(struct Team* team);
+
+//edit player object from console
+void editPlayer(struct Player* player);
 
 #endif // !INPUT_H
 

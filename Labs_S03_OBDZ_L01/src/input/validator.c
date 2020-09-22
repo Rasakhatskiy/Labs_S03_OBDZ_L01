@@ -2,7 +2,7 @@
 
 unsigned int readUInt32()
 {
-    char input[BUFSIZ];
+    char input[BUFFER_SIZE_INT_32];
 
     // omg what have i done
     while (1)
@@ -84,6 +84,9 @@ char* readString(int maxLength)
             }
             else
             {
+                for (int i = 0; i < maxLength; ++i)
+                    if (input[i] == '\n')
+                        input[i] = '\0';
                 return input;
             }
         }

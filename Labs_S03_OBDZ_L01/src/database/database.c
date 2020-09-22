@@ -250,6 +250,8 @@ struct Player* readPlayerByOffset(unsigned int offset)
 
 void printPlayer(struct Player* player)
 {
+    struct Team* team = get_m(player->team_id);
+
     printf("========== Player %s ==========\n", player->player_name);
     printf(
         "# [%i]\n"
@@ -260,10 +262,12 @@ void printPlayer(struct Player* player)
         "# Status   \t%s\n",
         player->id,
         player->player_number,
-        player->team_id, get_m(player->team_id)->team_name,
+        player->team_id, team != NULL ? team->team_name : "<Team not found>",
         player->birthday,
         player->gender == 0 ? "Female" : "Male",
         player->status);
+
+    free(team);
 }
 
 void updateIndexFileTeam()
