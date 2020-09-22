@@ -20,6 +20,17 @@ void editTeam(unsigned int id);
 //edit player object from console
 void editPlayer(unsigned int id);
 
+void function_insert_m();
+void function_insert_s();
+void function_get_m();
+void function_get_s();
+void function_update_m();
+void function_update_s();
 
+void function_printAll_m();
+void function_printAll_s();
+
+
+void wait();
 #endif // !INPUT_H
 

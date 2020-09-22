@@ -39,7 +39,7 @@ struct Player* readPlayer()
         if (isIndexTeamExists(player->team_id))
             break;
         else
-            printf("Team id %i doesn't exists.\n");
+            printf("Team id %i doesn't exists.\n", player->team_id);
     }
 
 
@@ -54,30 +54,6 @@ struct Player* readPlayer()
 
     return player;
 }
-
-
-/*
-struct Team
-{
-    unsigned int id;
-    char team_name[MAX_STRING_TITLE];		//1
-    char country_name[MAX_STRING_COUNTRY];	//2
-    char coach_name[MAX_STRING_NAME];		//3
-    char status[MAX_STRING_SIZE];			//4
-    unsigned int points;					//5
-};
-
-struct Player
-{
-    unsigned int id;
-    unsigned int player_number;				//1
-    unsigned int team_id;					//2
-    char player_name[MAX_STRING_NAME];		//3
-    char birthday[MAX_STRING_DATE];			//4
-    char gender;							//5
-    char status[MAX_STRING_SIZE];			//6
-};
-*/
 
 void editTeam(unsigned int id)
 {
@@ -195,4 +171,94 @@ void editPlayer(unsigned int id)
     }
     update_s(player);
     free(player);
+}
+
+void function_insert_m()
+{
+    system("CLS");
+    struct Team* team = readTeam();
+    insert_m(team);
+    free(team);
+    wait();
+}
+
+void function_insert_s()
+{
+    system("CLS");
+    struct Player* player = readPlayer();
+    insert_s(player);
+    free(player);
+    wait();
+}
+
+void function_get_m()
+{
+    system("CLS");
+    printf("Enter team id\n");
+    unsigned int id = readUInt32();
+    struct Team* team = get_m(id);
+    if (team) 
+        printTeam(team);
+    free(team);
+    wait();
+}
+
+void function_get_s()
+{
+    system("CLS");
+    printf("Enter player id\n");
+    unsigned int id = readUInt32();
+    struct Player* player = get_s(id);
+    if (player)
+        printPlayer(player);
+    free(player);
+    wait();
+}
+
+void function_update_m()
+{
+    system("CLS");
+    printf("Enter team id\n");
+    unsigned int id = readUInt32();
+    editTeam(id);
+    wait();
+}
+
+void function_update_s()
+{
+    system("CLS");
+    printf("Enter player id\n");
+    unsigned int id = readUInt32();
+    editPlayer(id);
+    wait();
+}
+
+void function_printAll_m()
+{
+    for (int i = 0; i < sizeDataOffsetsTeam; ++i)
+    {
+        struct Team* team = get_m(dataOffsetsTeam[i].index);
+        if (team) 
+            printTeam(team);
+        free(team);
+    }
+    wait();
+}
+
+void function_printAll_s()
+{
+    for (int i = 0; i < sizeDataOffsetsPlayer; ++i)
+    {
+        struct Player* player = get_s(dataOffsetsPlayer[i].index);
+        if (player) 
+            printPlayer(player);
+        free(player);
+    }
+    wait();
+}
+
+void wait()
+{
+    printf("\nPress any key to continue...\n");
+    _getch();
 }

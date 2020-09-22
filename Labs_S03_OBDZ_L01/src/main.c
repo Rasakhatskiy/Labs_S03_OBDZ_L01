@@ -8,24 +8,7 @@
 #include "database/database.h"
 #include "input/input.h"
 
-void A()
-{
-	printf("A \n");
-	getButton();
-}
-
-void B()
-{
-	printf("B \n");
-	getButton();
-
-}
-
-void C()
-{
-	printf("C \n");
-	getButton();
-}
+#define SIZE_MAIN_MENU 9
 
 
 void demoInsertTeams()
@@ -90,59 +73,37 @@ void demoInsertPlayer()
 	insert_s(player);
 }
 
+
+
 int main()
 {
-	//struct Team* team = malloc(sizeof(struct Team));
-
-
 	loadIndexFiles();
 
-	//demoInsertPlayer();
-	//demoInsertTeams();
-	//printIndexPage(dataOffsetsTeam, sizeDataOffsetsTeam);
-
-	//struct Team* t;
-	//for (int i = 0; i < 3; ++i)
-	//{
-	//	t = get_m(i);
-	//	printTeam(t);
-	//	//editTeam(i);
-	//}
-	
-
-	struct Player* player;
-	for (int i = 0; i < 3; ++i)
+	struct Menu* menu_main = createMenu("Main menu\0", function_exit);
+	struct Menu* menus[SIZE_MAIN_MENU] =
 	{
-		player = get_s(i);
-		printPlayer(player);
-		//editPlayer(i);
-	}
+		createMenu("Add Team   [insert-m]\0", function_insert_m),
+		createMenu("Add Player [insert-s]\0", function_insert_s),
+		createMenu("Get Team   [get-m]\0", function_get_m),
+		createMenu("Get Player [get-s]\0", function_get_s),
+		createMenu("Upd Team   [update-m]\0", function_update_m),
+		createMenu("Upd Player [update-s]\0", function_update_s),
+		createMenu("Print all teams\0", function_printAll_m),
+		createMenu("Print all players\0", function_printAll_s),
+		createMenu("Exit\0", function_back)
+	};
 
-	/*struct Menu* menu_main = createMenu("main menu\0", function_exit);
-	struct Menu* menu_a = createMenu("A\0", A);
-	struct Menu* menu_b = createMenu("B\0", B);
-	struct Menu* menu_c = createMenu("C\0", C);
+	/*struct Menu* menu_test_submenu = createMenu("sub\0", function_none);
+	struct Menu* menu_back = createMenu("back\0", function_back);*/
 
-	struct Menu* menu_test_submenu = createMenu("sub\0", function_none);
-	struct Menu* menu_back = createMenu("back\0", function_back);
-
-
-	addItem(menu_main, menu_a);
-	addItem(menu_main, menu_b);
-	addItem(menu_main, menu_c);
-	addItem(menu_main, menu_test_submenu);
-
-	addItem(menu_test_submenu, menu_a);
-	addItem(menu_test_submenu, menu_b);
-	addItem(menu_test_submenu, menu_c);
-	addItem(menu_test_submenu, menu_back);
-
+	for (int i = 0; i < SIZE_MAIN_MENU; ++i)
+		addItem(menu_main, menus[i]);
+	
 	launchMenu(menu_main);
 
 	free(menu_main);
-	free(menu_test_submenu);
-	free(menu_a);
-	free(menu_b);
-	free(menu_c);
-	return 0;*/
+	for (int i = 0; i < SIZE_MAIN_MENU; ++i)
+		free(menus[i]);
+
+	return 0;
 }

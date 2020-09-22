@@ -86,6 +86,7 @@ void insert_m(struct Team* team)
     dataOffsetsTeam[sizeDataOffsetsTeam].offset = offset;
     sizeDataOffsetsTeam++;
     updateIndexFileTeam();
+    printf("Data recorded.\n");
 }
 
 void update_m(struct Team* team)
@@ -204,6 +205,7 @@ void insert_s(struct Player* player)
     dataOffsetsPlayer[sizeDataOffsetsPlayer].offset = offset;
     sizeDataOffsetsPlayer++;
     updateIndexFilePlayer();
+    printf("Data recorded.\n");
 }
 
 void update_s(struct Player* player)
