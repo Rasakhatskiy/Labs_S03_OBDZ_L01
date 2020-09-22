@@ -29,21 +29,27 @@ void C()
 
 int main()
 {
-	printf("enter string:\n");
-	char* string = readString(15);
-	printf("your string: %s\n", string);
-	return 0;
-
 	//struct Team* team = malloc(sizeof(struct Team));
 
 
 
 	loadIndexFiles();
-	printIndexPage(dataOffsetsTeam, sizeDataOffsetsTeam);
+	//printIndexPage(dataOffsetsTeam, sizeDataOffsetsTeam);
 
 
 	struct Team* team = get_m(0);
-	printTeam(team);
+	//printTeam(team);
+
+	struct Player* player = get_s(0);/*malloc(sizeof(struct Player));
+	strncpy(player->birthday, "20.04.2000\0", MAX_STRING_DATE);
+	player->team_id = 1;
+	player->gender = 1;
+	player->player_number = 22;
+	strncpy(player->player_name, "Maksym Maksym Maksym\0", MAX_STRING_NAME);
+	strncpy(player->status, "krutgfk fgh fsdgjy g ;e fdhuf kdl hsfdf dsfk jsdkf  fhd  djfhdjf hd f dfhhfh fh\0", MAX_STRING_SIZE);*/
+	
+	printPlayer(player);
+	//insert_s(player);
 
 	/*strncpy(team->team_name, "Big boss team ltd\0", MAX_STRING_NAME);
 	strncpy(team->country_name, "Ukraine\0", MAX_STRING_COUNTRY);

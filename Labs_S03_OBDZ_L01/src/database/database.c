@@ -205,7 +205,66 @@ int isIndexTeamExists(int index)
     return 0;
 }
 
+struct Player* get_s(unsigned int id)
+{
+    //no data
+    if (sizeDataOffsetsPlayer <= 0)
+        return NULL;
 
+    //search through memory table of index
+    for (int i = 0; i < sizeDataOffsetsPlayer; ++i)
+        if (dataOffsetsPlayer[i].index == id)
+            return readPlayerByOffset(dataOffsetsPlayer[i].offset);
+
+    //if not found
+    printf("Index %i from table Players not found.\n", id);
+    return NULL;
+}
+
+struct Player* readPlayerByOffset(unsigned int offset)
+{
+    FILE* file = fopen(PATH_TABLE_PLAYER, "rb");
+
+    if (!file)
+    {
+        printf("File %s not found.\n", PATH_TABLE_PLAYER);
+        return;
+    }
+
+    //seek to needed element
+    fseek(file, offset, SEEK_SET);
+
+    struct Player* temp = malloc(sizeof(struct Player));
+    fread(
+        temp,
+        sizeof(struct Player),
+        1,
+        file);
+
+    fclose(file);
+
+    return temp;
+}
+
+
+
+void printPlayer(struct Player* player)
+{
+    printf("========== Player %s ==========\n", player->player_name);
+    printf(
+        "# [%i]\n"
+        "# Number   \t%i\n"
+        "# Team [%i]\t%s\n"
+        "# Birthday \t%s\n"
+        "# Gender   \t%s\n"
+        "# Status   \t%s\n",
+        player->id,
+        player->player_number,
+        player->team_id, get_m(player->team_id)->team_name,
+        player->birthday,
+        player->gender == 0 ? "Female" : "Male",
+        player->status);
+}
 
 void updateIndexFileTeam()
 {

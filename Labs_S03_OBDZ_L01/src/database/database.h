@@ -96,7 +96,11 @@ void insert_s(struct Player* player);
 // checks if team with given index exists
 int isIndexTeamExists(int index);
 
+struct Player* get_s(unsigned int id);
 
+struct Player* readPlayerByOffset(unsigned int offset);
+
+void printPlayer(struct Player* player);
 
 // writes index-offset table from memory to file
 void updateIndexFileTeam();
