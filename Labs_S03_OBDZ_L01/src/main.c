@@ -22,24 +22,24 @@ void demoInsertTeams()
 	team->points = 47;
 	insert_m(team);
 
-	strncpy(team->team_name, "jebrony nice ass team\0", MAX_STRING_NAME);
-	strncpy(team->country_name, "Moskovia\0", MAX_STRING_COUNTRY);
+	strncpy(team->team_name, "KNU pro big title team\0", MAX_STRING_NAME);
+	strncpy(team->country_name, "Sheva\0", MAX_STRING_COUNTRY);
 	strncpy(team->coach_name, "Yakis sportsman\0", MAX_STRING_NAME);
 	strncpy(team->status, "Very long long long long long long long long long long long long long long long long long long long long long long long text\0", MAX_STRING_SIZE);
 	team->points = 10;
 	insert_m(team);
 
-	strncpy(team->team_name, "c\0", MAX_STRING_NAME);
-	strncpy(team->country_name, "c\0", MAX_STRING_COUNTRY);
-	strncpy(team->coach_name, "c\0", MAX_STRING_NAME);
-	strncpy(team->status, "c\0", MAX_STRING_SIZE);
+	strncpy(team->team_name, "Kompudatoria\0", MAX_STRING_NAME);
+	strncpy(team->country_name, "Belarus\0", MAX_STRING_COUNTRY);
+	strncpy(team->coach_name, "Goncharenko\0", MAX_STRING_NAME);
+	strncpy(team->status, "Veseli\0", MAX_STRING_SIZE);
 	team->points = 12;
 	insert_m(team);
 
-	strncpy(team->team_name, "d\0", MAX_STRING_NAME);
-	strncpy(team->country_name, "d\0", MAX_STRING_COUNTRY);
-	strncpy(team->coach_name, "d\0", MAX_STRING_NAME);
-	strncpy(team->status, "d\0", MAX_STRING_SIZE);
+	strncpy(team->team_name, "Team 4\0", MAX_STRING_NAME);
+	strncpy(team->country_name, "You Crane\0", MAX_STRING_COUNTRY);
+	strncpy(team->coach_name, "John Cooper\0", MAX_STRING_NAME);
+	strncpy(team->status, "Ya ne znayu sho syda napisaty\0", MAX_STRING_SIZE);
 	team->points = 13;
 	insert_m(team);
 }
@@ -53,7 +53,7 @@ void demoInsertPlayer()
 	player->gender = 1;
 	player->player_number = 22;
 	strncpy(player->player_name, "Maksym Maksym Maksym\0", MAX_STRING_NAME);
-	strncpy(player->status, "krutgfk fgh fsdgjy g ;e fdhuf kdl hsfdf dsfk jsdkf  fhd  djfhdjf hd f dfhhfh fh\0", MAX_STRING_SIZE);
+	strncpy(player->status, "Somebody once told him the world is gonna roll him\0", MAX_STRING_SIZE);
 	insert_s(player);
 
 	strncpy(player->birthday, "99.99.9999\0", MAX_STRING_DATE);
@@ -61,10 +61,10 @@ void demoInsertPlayer()
 	player->gender = 0;
 	player->player_number = 14;
 	strncpy(player->player_name, "Olga\0", MAX_STRING_NAME);
-	strncpy(player->status, "ssdkfdfg gggggggggggg fh\0", MAX_STRING_SIZE);
+	strncpy(player->status, "Is not the sharpest tool in the shed\0", MAX_STRING_SIZE);
 	insert_s(player);
 
-	strncpy(player->birthday, "88/88/8888\0", MAX_STRING_DATE);
+	strncpy(player->birthday, "11.11.2011\0", MAX_STRING_DATE);
 	player->team_id = 2;
 	player->gender = 0;
 	player->player_number = 123;
