@@ -61,6 +61,24 @@ void printIndexPage(struct DataOffset* indexPage, int indexPageSize)
         printf("index: %i\toffset:%i\n", indexPage[i].index, indexPage[i].offset);
 }
 
+void delete_element(struct DataOffset* dataOffsets, unsigned int* size, int index)
+{
+    //find needed index in table of index-offsets
+    for (int i = 0; i < *size; ++i)
+    {
+        if (dataOffsets[i].index == index)
+        {
+            //shift all table to the left by 1
+            for (int j = *size; j > i; --j)
+                dataOffsets[j] = dataOffsets[j - 1];
+
+            //decrease table size
+            --(*size);
+            break;
+        }
+    }
+}
+
 
 
 void insert_m(struct Team* team)
@@ -132,6 +150,32 @@ struct Team* get_m(unsigned int id)
     return NULL;
 }
 
+void delete_m(unsigned int id)
+{
+    if (!isIndexTeamExists(id))
+    {
+        printf("Team with id %i doesn't exists", id);
+        return;
+    }
+
+    //delete all slaves from database
+    for (int i = sizeDataOffsetsPlayer; i >= 0; --i)
+    {
+        struct Player* player = get_s(dataOffsetsPlayer[i].index);
+        if (player->team_id == id)
+            delete_s(dataOffsetsPlayer[i].index);
+        free(player);
+    }
+
+    //delete index from index-offset table
+    delete_element(dataOffsetsTeam, &sizeDataOffsetsTeam, id);
+
+    //write it to file
+    updateIndexFileTeam();
+
+    printf("Team %i deleted.\n", id);
+}
+
 struct Team* readTeamByOffset(unsigned int offset)
 {
     FILE* file = fopen(PATH_TABLE_TEAM, "rb");
@@ -173,6 +217,13 @@ void printTeam(struct Team* team)
         team->points);
 }
 
+int isIndexTeamExists(int index)
+{
+    for (int i = 0; i < sizeDataOffsetsTeam; ++i)
+        if (dataOffsetsTeam[i].index == index)
+            return 1;
+    return 0;
+}
 
 
 
@@ -235,10 +286,27 @@ void update_s(struct Player* player)
     fclose(file);
 }
 
-int isIndexTeamExists(int index)
+void delete_s(unsigned int id)
 {
-    for (int i = 0; i < sizeDataOffsetsTeam; ++i)
-        if (dataOffsetsTeam[i].index == index)
+    if (!isIndexPlayerExists(id))
+    {
+        printf("Player with id %i doesn't exists", id);
+        return;
+    }
+
+    //delete index from index-offset table
+    delete_element(dataOffsetsPlayer, &sizeDataOffsetsPlayer, id);
+
+    //write it to file
+    updateIndexFilePlayer();
+
+    printf("Player %i deleted.\n", id);
+}
+
+int isIndexPlayerExists(int index)
+{
+    for (int i = 0; i < sizeDataOffsetsPlayer; ++i)
+        if (dataOffsetsPlayer[i].index == index)
             return 1;
     return 0;
 }

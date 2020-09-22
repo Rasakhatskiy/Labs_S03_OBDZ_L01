@@ -233,6 +233,25 @@ void function_update_s()
     wait();
 }
 
+void function_delete_m()
+{
+    system("CLS");
+    printf("Enter team id\n");
+    unsigned int id = readUInt32();
+    delete_m(id);
+    wait();
+}
+
+void function_delete_s()
+{
+    system("CLS");
+    printf("Enter player id\n");
+    unsigned int id = readUInt32();
+    delete_s(id);
+    wait();
+}
+
+
 void function_printAll_m()
 {
     for (int i = 0; i < sizeDataOffsetsTeam; ++i)

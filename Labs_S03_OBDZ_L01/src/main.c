@@ -8,7 +8,7 @@
 #include "database/database.h"
 #include "input/input.h"
 
-#define SIZE_MAIN_MENU 9
+#define SIZE_MAIN_MENU 11
 
 
 void demoInsertTeams()
@@ -88,6 +88,8 @@ int main()
 		createMenu("Get Player [get-s]\0", function_get_s),
 		createMenu("Upd Team   [update-m]\0", function_update_m),
 		createMenu("Upd Player [update-s]\0", function_update_s),
+		createMenu("Del Team   [delete-m]\0", function_delete_m),
+		createMenu("Del Player [delete-s]\0", function_delete_s),
 		createMenu("Print all teams\0", function_printAll_m),
 		createMenu("Print all players\0", function_printAll_s),
 		createMenu("Exit\0", function_back)

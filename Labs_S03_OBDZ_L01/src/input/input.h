@@ -26,6 +26,8 @@ void function_get_m();
 void function_get_s();
 void function_update_m();
 void function_update_s();
+void function_delete_m();
+void function_delete_s();
 
 void function_printAll_m();
 void function_printAll_s();

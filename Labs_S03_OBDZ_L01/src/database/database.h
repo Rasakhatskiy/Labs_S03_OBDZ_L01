@@ -69,6 +69,8 @@ void loadIndexFile(struct DataOffset* indexPage, int* indexPageSize, char path[]
 //prints loaded to memory index-offset table
 void printIndexPage(struct DataOffset* indexPage, int indexPageSize);
 
+//deletes element from index table
+void delete_element(struct DataOffset* dataOffsets, unsigned int* size, int index);
 
 
 //adds new team to data base
@@ -80,12 +82,17 @@ void update_m(struct Team* team);
 //reads master element(Team) by id
 struct Team* get_m(unsigned int id);
 
+//deletes master element from database and his slave elements
+void delete_m(unsigned int id);
+
 //reads team in data file by offset
 struct Team* readTeamByOffset(unsigned int offset);
 
 // prints team on screen
 void printTeam(struct Team* team);
 
+// checks if team with given index exists
+int isIndexTeamExists(int index);
 
 
 
@@ -95,8 +102,11 @@ void insert_s(struct Player* player);
 //allows to edit database entry
 void update_s(struct Player* player);
 
-// checks if team with given index exists
-int isIndexTeamExists(int index);
+//deletes slave element from database
+void delete_s(unsigned int id);
+
+// checks if player with given index exists
+int isIndexPlayerExists(int index);
 
 //reads slave element(Player) by id
 struct Player* get_s(unsigned int id);
@@ -106,15 +116,16 @@ struct Player* readPlayerByOffset(unsigned int offset);
 
 void printPlayer(struct Player* player);
 
+
+
+
+
 // writes index-offset table from memory to file
 void updateIndexFileTeam();
 
 // writes index-offset table from memory to file
 void updateIndexFilePlayer();
 
-
-// reads team by id, offers to edit it, and updates in file
-void update_m(unsigned int id);
 
 
 #endif // !DATABASE_H
