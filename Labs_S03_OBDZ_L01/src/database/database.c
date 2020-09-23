@@ -110,7 +110,7 @@ void insert_m(struct Team* team)
     fclose(file);
 
     //fill correspond field in memory index array
-    dataOffsetsTeam[sizeDataOffsetsTeam].index = ++maxIndexTeam;
+    dataOffsetsTeam[sizeDataOffsetsTeam].index = team->id;
     dataOffsetsTeam[sizeDataOffsetsTeam].offset = offset;
     sizeDataOffsetsTeam++;
     updateIndexFileTeam();

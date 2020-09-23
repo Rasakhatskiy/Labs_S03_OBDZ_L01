@@ -57,7 +57,7 @@ void demoInsertPlayer()
 	insert_s(player);
 
 	strncpy(player->birthday, "99.99.9999\0", MAX_STRING_DATE);
-	player->team_id = 0;
+	player->team_id = 3;
 	player->gender = 0;
 	player->player_number = 14;
 	strncpy(player->player_name, "Olga\0", MAX_STRING_NAME);
@@ -89,7 +89,7 @@ void demoInsertPlayer()
 	insert_s(player);
 
 	strncpy(player->birthday, "11.11.2011\0", MAX_STRING_DATE);
-	player->team_id = 0;
+	player->team_id = 3;
 	player->gender = 0;
 	player->player_number = 123;
 	strncpy(player->player_name, "C\0", MAX_STRING_NAME);
@@ -106,9 +106,9 @@ int main()
 	//printf("\n");
 	//printIndexPage(dataOffsetsPlayer, sizeDataOffsetsPlayer);
 	//_getch();
-	demoInsertTeams();
+	/*demoInsertTeams();
 	demoInsertPlayer();
-	return 0;
+	return 0;*/
 	struct Menu* menu_main = createMenu("Main menu\0", function_exit);
 	struct Menu* menus[SIZE_MAIN_MENU] =
 	{
