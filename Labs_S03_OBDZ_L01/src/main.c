@@ -112,16 +112,16 @@ int main()
 	struct Menu* menu_main = createMenu("Main menu\0", function_exit);
 	struct Menu* menus[SIZE_MAIN_MENU] =
 	{
-		createMenu("Add Team   [insert-m]\0", function_insert_m),
-		createMenu("Add Player [insert-s]\0", function_insert_s),
-		createMenu("Get Team   [get-m]\0", function_get_m),
-		createMenu("Get Player [get-s]\0", function_get_s),
-		createMenu("Upd Team   [update-m]\0", function_update_m),
-		createMenu("Upd Player [update-s]\0", function_update_s),
-		createMenu("Del Team   [delete-m]\0", function_delete_m),
-		createMenu("Del Player [delete-s]\0", function_delete_s),
-		createMenu("Print all teams\0", function_printAll_m),
-		createMenu("Print all players\0", function_printAll_s),
+		createMenu("Add Team          [insert-m]\0", function_insert_m),
+		createMenu("Add Player        [insert-s]\0", function_insert_s),
+		createMenu("Get Team          [get-m]\0", function_get_m),
+		createMenu("Get Player        [get-s]\0", function_get_s),
+		createMenu("Upd Team          [update-m]\0", function_update_m),
+		createMenu("Upd Player        [update-s]\0", function_update_s),
+		createMenu("Del Team          [delete-m]\0", function_delete_m),
+		createMenu("Del Player        [delete-s]\0", function_delete_s),
+		createMenu("Print all teams   [ut-m]\0", function_printAll_m),
+		createMenu("Print all players [ut-s]\0", function_printAll_s),
 		createMenu("Exit\0", function_back)
 	};
 
