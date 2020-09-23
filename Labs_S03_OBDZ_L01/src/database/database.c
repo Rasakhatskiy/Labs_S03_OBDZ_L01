@@ -5,18 +5,23 @@ void loadIndexFiles()
     dataOffsetsPlayer = malloc(MAX_INDEX_PAGE_ENTRIES * sizeof(struct DataOffset));
     dataOffsetsTeam = malloc(MAX_INDEX_PAGE_ENTRIES * sizeof(struct DataOffset));
 
+    maxIndexPlayer = 0;
+    maxIndexTeam = 0;
+
     loadIndexFile(
         dataOffsetsPlayer, 
         &sizeDataOffsetsPlayer, 
-        PATH_TABLE_INDEX_PLAYER);
+        PATH_TABLE_INDEX_PLAYER,
+        &maxIndexPlayer);
 
     loadIndexFile(
         dataOffsetsTeam, 
         &sizeDataOffsetsTeam, 
-        PATH_TABLE_INDEX_TEAM);
+        PATH_TABLE_INDEX_TEAM,
+        &maxIndexTeam);
 }
 
-void loadIndexFile(struct DataOffset* dataOffsets, int *sizeDataOffsets, char path[])
+void loadIndexFile(struct DataOffset* dataOffsets, int *sizeDataOffsets, char path[], unsigned int* maxIndex)
 {
     FILE* file = fopen(path, "rb");
 
@@ -25,6 +30,8 @@ void loadIndexFile(struct DataOffset* dataOffsets, int *sizeDataOffsets, char pa
         printf("File %s not found.\n", path);
         return;
     }
+
+    *maxIndex = 0;
 
     //reset size
     fread(sizeDataOffsets, sizeof(unsigned int), 1, file);
@@ -38,13 +45,16 @@ void loadIndexFile(struct DataOffset* dataOffsets, int *sizeDataOffsets, char pa
     //read not end of file reached OR
     //error occured AND
     //page size not read
+    //remember max index also
     while (
         fread(
             &dataOffsets[entriesRead++],
-            sizeof(struct DataOffset), 
-            1, 
+            sizeof(struct DataOffset),
+            1,
             file) &&
-        entriesRead < MAX_INDEX_PAGE_ENTRIES);
+        entriesRead < MAX_INDEX_PAGE_ENTRIES)
+        if (dataOffsets[entriesRead - 1].index > *maxIndex)
+            *maxIndex = dataOffsets[entriesRead - 1].index;
 
     //how reading ended
     if (feof(file))
@@ -69,8 +79,8 @@ void delete_element(struct DataOffset* dataOffsets, unsigned int* size, int inde
         if (dataOffsets[i].index == index)
         {
             //shift all table to the left by 1
-            for (int j = *size; j > i; --j)
-                dataOffsets[j] = dataOffsets[j - 1];
+            for (int j = i; j < *(size) - 1; ++j)
+                dataOffsets[j] = dataOffsets[j + 1];
 
             //decrease table size
             --(*size);
@@ -91,7 +101,7 @@ void insert_m(struct Team* team)
     }
 
     //assign new id
-    team->id = sizeDataOffsetsTeam;
+    team->id = ++maxIndexTeam;
 
     //seek to the end of file and save position as offset for new entry
     fseek(file, 0, SEEK_END);
@@ -100,7 +110,7 @@ void insert_m(struct Team* team)
     fclose(file);
 
     //fill correspond field in memory index array
-    dataOffsetsTeam[sizeDataOffsetsTeam].index = sizeDataOffsetsTeam;
+    dataOffsetsTeam[sizeDataOffsetsTeam].index = ++maxIndexTeam;
     dataOffsetsTeam[sizeDataOffsetsTeam].offset = offset;
     sizeDataOffsetsTeam++;
     updateIndexFileTeam();
@@ -159,10 +169,11 @@ void delete_m(unsigned int id)
     }
 
     //delete all slaves from database
-    for (int i = sizeDataOffsetsPlayer; i >= 0; --i)
+    for (int i = sizeDataOffsetsPlayer - 1; i >= 0; --i)
     {
         struct Player* player = get_s(dataOffsetsPlayer[i].index);
-        if (player->team_id == id)
+        if (player &&
+            player->team_id == id)
             delete_s(dataOffsetsPlayer[i].index);
         free(player);
     }
@@ -243,7 +254,7 @@ void insert_s(struct Player* player)
     }
 
     // assign new id
-    player->id = sizeDataOffsetsPlayer;
+    player->id = ++maxIndexPlayer;
 
     //seek to the end of file and save position as offset for new entry
     fseek(file, 0, SEEK_END);
@@ -252,7 +263,7 @@ void insert_s(struct Player* player)
     fclose(file);
 
     //fill correspond field in memory index array
-    dataOffsetsPlayer[sizeDataOffsetsPlayer].index = sizeDataOffsetsPlayer;
+    dataOffsetsPlayer[sizeDataOffsetsPlayer].index = player->id;
     dataOffsetsPlayer[sizeDataOffsetsPlayer].offset = offset;
     sizeDataOffsetsPlayer++;
     updateIndexFilePlayer();

@@ -71,6 +71,30 @@ void demoInsertPlayer()
 	strncpy(player->player_name, "Keksik\0", MAX_STRING_NAME);
 	strncpy(player->status, "Eating keks\0", MAX_STRING_SIZE);
 	insert_s(player);
+
+	strncpy(player->birthday, "11.11.2011\0", MAX_STRING_DATE);
+	player->team_id = 2;
+	player->gender = 0;
+	player->player_number = 123;
+	strncpy(player->player_name, "A\0", MAX_STRING_NAME);
+	strncpy(player->status, "A\0", MAX_STRING_SIZE);
+	insert_s(player);
+
+	strncpy(player->birthday, "11.11.2011\0", MAX_STRING_DATE);
+	player->team_id = 1;
+	player->gender = 0;
+	player->player_number = 123;
+	strncpy(player->player_name, "B\0", MAX_STRING_NAME);
+	strncpy(player->status, "B\0", MAX_STRING_SIZE);
+	insert_s(player);
+
+	strncpy(player->birthday, "11.11.2011\0", MAX_STRING_DATE);
+	player->team_id = 0;
+	player->gender = 0;
+	player->player_number = 123;
+	strncpy(player->player_name, "C\0", MAX_STRING_NAME);
+	strncpy(player->status, "C\0", MAX_STRING_SIZE);
+	insert_s(player);
 }
 
 
@@ -78,7 +102,13 @@ void demoInsertPlayer()
 int main()
 {
 	loadIndexFiles();
-
+	//printIndexPage(dataOffsetsTeam, sizeDataOffsetsTeam);
+	//printf("\n");
+	//printIndexPage(dataOffsetsPlayer, sizeDataOffsetsPlayer);
+	//_getch();
+	demoInsertTeams();
+	demoInsertPlayer();
+	return 0;
 	struct Menu* menu_main = createMenu("Main menu\0", function_exit);
 	struct Menu* menus[SIZE_MAIN_MENU] =
 	{

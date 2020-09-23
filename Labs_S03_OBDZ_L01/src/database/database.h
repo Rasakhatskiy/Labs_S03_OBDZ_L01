@@ -35,9 +35,14 @@ struct DataOffset
 	
 struct DataOffset* dataOffsetsPlayer;
 unsigned int sizeDataOffsetsPlayer;
+unsigned int maxIndexPlayer;
 
 struct DataOffset* dataOffsetsTeam;
 unsigned int sizeDataOffsetsTeam;
+unsigned int maxIndexTeam;
+
+
+
 
 struct Team
 {
@@ -64,7 +69,8 @@ struct Player
 void loadIndexFiles();
 
 //loads page of index-offset table
-void loadIndexFile(struct DataOffset* indexPage, int* indexPageSize, char path[]);
+//calculatex maximum index for future assign new elements
+void loadIndexFile(struct DataOffset* indexPage, int* indexPageSize, char path[], unsigned int* maxIndex);
 
 //prints loaded to memory index-offset table
 void printIndexPage(struct DataOffset* indexPage, int indexPageSize);
