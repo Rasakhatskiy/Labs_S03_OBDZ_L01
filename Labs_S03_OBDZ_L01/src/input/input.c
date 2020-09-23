@@ -276,6 +276,27 @@ void function_printAll_s()
     wait();
 }
 
+void function_count()
+{
+    system("CLS");
+    printf("Number of teams : %i\n", sizeDataOffsetsTeam);
+    for (int i = 0; i < sizeDataOffsetsTeam; ++i)
+    {
+        int count = 0;
+        struct Team* team = get_m(dataOffsetsTeam[i].index);
+        for (int j = 0; j < sizeDataOffsetsPlayer; ++j)
+        {
+            struct Player* player = get_s(dataOffsetsPlayer[j].index);
+            if (player->team_id == team->id)
+                ++count;
+            free(player);
+        }
+        free(team);
+        printf("Team %i has %i players.\n", dataOffsetsTeam[i].index, count);
+    }
+    wait();
+}
+
 void wait()
 {
     printf("\nPress any key to continue...\n");

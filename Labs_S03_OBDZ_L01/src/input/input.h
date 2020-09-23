@@ -32,6 +32,7 @@ void function_delete_s();
 void function_printAll_m();
 void function_printAll_s();
 
+void function_count();
 
 void wait();
 #endif // !INPUT_H
