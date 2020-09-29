@@ -71,7 +71,7 @@ void printIndexPage(struct DataOffset* indexPage, int indexPageSize)
         printf("index: %i\toffset:%i\n", indexPage[i].index, indexPage[i].offset);
 }
 
-void delete_element(struct DataOffset* dataOffsets, unsigned int* size, int index)
+void deleteElement(struct DataOffset* dataOffsets, unsigned int* size, int index)
 {
     //find needed index in table of index-offsets
     for (int i = 0; i < *size; ++i)
@@ -87,6 +87,76 @@ void delete_element(struct DataOffset* dataOffsets, unsigned int* size, int inde
             break;
         }
     }
+}
+
+void clearTrash()
+{
+    //calculate old size
+    printf("Size before clearing %i bytes.\n", getFileSize(PATH_TABLE_TEAM));
+
+    //open temp file
+    FILE* file = fopen("temp", "ab+");
+    if (!file)
+    {
+        printf("Cannot create temp file. Aborting.\n");
+        return;
+    }
+
+    //rewrite temp file from table
+    struct Team* team;
+    unsigned int offset;
+    for (int i = 0; i < sizeDataOffsetsTeam; ++i)
+    {
+        team = readTeamByOffset(dataOffsetsTeam[i].offset);
+        offset = ftell(file);
+        fwrite(team, sizeof(struct Team), 1, file);
+
+        //remember new offset
+        dataOffsetsTeam[i].offset = offset;
+    }
+    fclose(file);
+    //delete old table
+    remove(PATH_TABLE_TEAM);
+    //rename temp to table
+    rename("temp", PATH_TABLE_TEAM);
+    //update index file
+    updateIndexFileTeam();
+    //calculate new size
+    printf("Size after clearing %i bytes.\n", getFileSize(PATH_TABLE_TEAM));
+
+
+    //calculate old size
+    printf("Size before clearing %i bytes.\n", getFileSize(PATH_TABLE_PLAYER));
+
+    //open temp file
+    file = fopen("temp", "ab+");
+    if (!file)
+    {
+        printf("Cannot create temp file. Aborting.\n");
+        return;
+    }
+
+    //rewrite temp file from table
+    struct Player* player;
+    for (int i = 0; i < sizeDataOffsetsPlayer; ++i)
+    {
+        
+        team = readPlayerByOffset(dataOffsetsPlayer[i].offset);
+        offset = ftell(file);
+        fwrite(team, sizeof(struct Player), 1, file);
+
+        //remember new offset
+        dataOffsetsPlayer[i].offset = offset;
+    }
+    fclose(file);
+    //delete old table
+    remove(PATH_TABLE_PLAYER);
+    //rename temp to table
+    rename("temp", PATH_TABLE_PLAYER);
+    //update index file
+    updateIndexFilePlayer();
+    //calculate new size
+    printf("Size after clearing %i bytes.\n", getFileSize(PATH_TABLE_PLAYER));
 }
 
 
@@ -179,7 +249,7 @@ void delete_m(unsigned int id)
     }
 
     //delete index from index-offset table
-    delete_element(dataOffsetsTeam, &sizeDataOffsetsTeam, id);
+    deleteElement(dataOffsetsTeam, &sizeDataOffsetsTeam, id);
 
     //write it to file
     updateIndexFileTeam();
@@ -306,7 +376,7 @@ void delete_s(unsigned int id)
     }
 
     //delete index from index-offset table
-    delete_element(dataOffsetsPlayer, &sizeDataOffsetsPlayer, id);
+    deleteElement(dataOffsetsPlayer, &sizeDataOffsetsPlayer, id);
 
     //write it to file
     updateIndexFilePlayer();
@@ -417,4 +487,13 @@ void updateIndexFilePlayer()
         fwrite(&dataOffsetsPlayer[i], sizeof(struct DataOffset), 1, file);
 
     fclose(file);
+}
+
+long getFileSize(char path[])
+{
+    FILE* file = fopen(PATH_TABLE_TEAM, "ab+");
+    fseek(file, 0, SEEK_END);
+    unsigned int offset = ftell(file);
+    fclose(file);
+    return offset;
 }

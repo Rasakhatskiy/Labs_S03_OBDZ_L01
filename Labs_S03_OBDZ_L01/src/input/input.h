@@ -34,6 +34,8 @@ void function_printAll_s();
 
 void function_count();
 
+void function_clear_trash();
+
 void wait();
 #endif // !INPUT_H
 

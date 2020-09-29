@@ -297,6 +297,13 @@ void function_count()
     wait();
 }
 
+void function_clear_trash()
+{
+    system("CLS");
+    clearTrash();
+    wait();
+}
+
 void wait()
 {
     printf("\nPress any key to continue...\n");

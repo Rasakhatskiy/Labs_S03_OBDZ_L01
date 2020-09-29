@@ -76,7 +76,12 @@ void loadIndexFile(struct DataOffset* indexPage, int* indexPageSize, char path[]
 void printIndexPage(struct DataOffset* indexPage, int indexPageSize);
 
 //deletes element from index table
-void delete_element(struct DataOffset* dataOffsets, unsigned int* size, int index);
+void deleteElement(struct DataOffset* dataOffsets, unsigned int* size, int index);
+
+//rewrites database to avoid empty zones
+void clearTrash();
+
+
 
 
 //adds new team to data base
@@ -131,6 +136,8 @@ void updateIndexFileTeam();
 
 // writes index-offset table from memory to file
 void updateIndexFilePlayer();
+
+long getFileSize(char path[]);
 
 
 
