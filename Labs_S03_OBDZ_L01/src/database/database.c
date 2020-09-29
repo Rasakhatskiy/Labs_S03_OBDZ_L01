@@ -116,9 +116,17 @@ void clearTrash()
     }
     fclose(file);
     //delete old table
-    remove(PATH_TABLE_TEAM);
+    if (!remove(PATH_TABLE_TEAM))
+    {
+        printf("Unable to remove file %s. Aborting.\n", PATH_TABLE_TEAM);
+        return;
+    }
     //rename temp to table
-    rename("temp", PATH_TABLE_TEAM);
+    if (!rename("temp", PATH_TABLE_TEAM))
+    {
+        printf("Unable to rename file %s to %s. Aborting.\n", "temp", PATH_TABLE_TEAM);
+        return;
+    }
     //update index file
     updateIndexFileTeam();
     //calculate new size
@@ -149,10 +157,17 @@ void clearTrash()
         dataOffsetsPlayer[i].offset = offset;
     }
     fclose(file);
-    //delete old table
-    remove(PATH_TABLE_PLAYER);
+    if (!remove(PATH_TABLE_PLAYER))
+    {
+        printf("Unable to remove file %s. Aborting.\n", PATH_TABLE_PLAYER);
+        return;
+    }
     //rename temp to table
-    rename("temp", PATH_TABLE_PLAYER);
+    if (!rename("temp", PATH_TABLE_PLAYER))
+    {
+        printf("Unable to rename file %s to %s. Aborting.\n", "temp", PATH_TABLE_PLAYER);
+        return;
+    }
     //update index file
     updateIndexFilePlayer();
     //calculate new size
