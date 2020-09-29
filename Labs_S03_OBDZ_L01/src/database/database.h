@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 
 #define MAX_STRING_TITLE 128
 #define MAX_STRING_COUNTRY 32
@@ -47,22 +48,24 @@ unsigned int maxIndexTeam;
 struct Team
 {
 	unsigned int id;
-	char team_name[MAX_STRING_TITLE];		//1
-	char country_name[MAX_STRING_COUNTRY];	//2
-	char coach_name[MAX_STRING_NAME];		//3
-	char status[MAX_STRING_SIZE];			//4
-	unsigned int points;					//5
+	char team_name[MAX_STRING_TITLE];
+	char country_name[MAX_STRING_COUNTRY];
+	char coach_name[MAX_STRING_NAME];
+	char status[MAX_STRING_SIZE];
+	unsigned int points;
+	unsigned int firstSlaveOffset;
 };
 
 struct Player 
 {
-	unsigned int id;						
-	unsigned int player_number;				//1
-	unsigned int team_id;					//2
-	char player_name[MAX_STRING_NAME];		//3
-	char birthday[MAX_STRING_DATE];			//4
-	char gender;							//5
-	char status[MAX_STRING_SIZE];			//6
+	unsigned int id;
+	unsigned int player_number;
+	unsigned int team_id;
+	char player_name[MAX_STRING_NAME];
+	char birthday[MAX_STRING_DATE];
+	char gender;							
+	char status[MAX_STRING_SIZE];
+	unsigned int nextSlaveOffset;
 };
 
 //allocates memory and reads index pages for tables
@@ -129,16 +132,14 @@ void printPlayer(struct Player* player);
 
 
 
-
-
 // writes index-offset table from memory to file
 void updateIndexFileTeam();
 
 // writes index-offset table from memory to file
 void updateIndexFilePlayer();
 
+//returns length of file in bytes
 long getFileSize(char path[]);
-
 
 
 #endif // !DATABASE_H

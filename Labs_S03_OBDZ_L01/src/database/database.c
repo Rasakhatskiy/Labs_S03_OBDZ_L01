@@ -187,6 +187,7 @@ void insert_m(struct Team* team)
 
     //assign new id
     team->id = ++maxIndexTeam;
+    team->firstSlaveOffset = UINT_MAX;
 
     //seek to the end of file and save position as offset for new entry
     fseek(file, 0, SEEK_END);
@@ -340,12 +341,52 @@ void insert_s(struct Player* player)
 
     // assign new id
     player->id = ++maxIndexPlayer;
+    player->nextSlaveOffset = UINT_MAX;
 
     //seek to the end of file and save position as offset for new entry
     fseek(file, 0, SEEK_END);
     unsigned int offset = ftell(file);
     fwrite(player, sizeof(struct Team), 1, file);
     fclose(file);
+
+    //find last slave from this team
+    unsigned int lastOffset = UINT_MAX;
+    if (sizeDataOffsetsPlayer > 0)
+    {
+        //searching from end
+        for (int i = sizeDataOffsetsPlayer - 1; i >= 0; --i)
+        {
+            //remember offset from last player of team
+            struct Player* temp = readPlayerByOffset(dataOffsetsPlayer[i].offset);
+            if (temp->team_id == player->team_id)
+            {
+                lastOffset = dataOffsetsPlayer[i].offset;
+                free(temp);
+                break;
+            }
+            free(temp);
+        }
+        //update previous slave to give next slave offset
+        if (lastOffset != UINT_MAX)
+        {
+            struct Player* toUpdate = readPlayerByOffset(lastOffset);
+            toUpdate->nextSlaveOffset = offset;
+            update_s(toUpdate);
+            free(toUpdate);
+        }
+        
+    }
+
+    //set team
+    {
+        struct Team* team = get_m(player->team_id);
+        if (team->firstSlaveOffset == UINT_MAX)
+        {
+            team->firstSlaveOffset = offset;
+            update_m(team);
+        }
+        free(team);
+    }
 
     //fill correspond field in memory index array
     dataOffsetsPlayer[sizeDataOffsetsPlayer].index = player->id;

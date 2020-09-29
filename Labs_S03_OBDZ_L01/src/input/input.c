@@ -284,11 +284,13 @@ void function_count()
     {
         int count = 0;
         struct Team* team = get_m(dataOffsetsTeam[i].index);
-        for (int j = 0; j < sizeDataOffsetsPlayer; ++j)
+        unsigned int next = team->firstSlaveOffset;
+
+        while (next != UINT_MAX)
         {
-            struct Player* player = get_s(dataOffsetsPlayer[j].index);
-            if (player->team_id == team->id)
-                ++count;
+            struct Player* player = readPlayerByOffset(next);
+            next = player->nextSlaveOffset;
+            ++count;
             free(player);
         }
         free(team);
