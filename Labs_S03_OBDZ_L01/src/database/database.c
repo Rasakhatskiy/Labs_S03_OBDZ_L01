@@ -254,14 +254,17 @@ void delete_m(unsigned int id)
         return;
     }
 
-    //delete all slaves from database
-    for (int i = sizeDataOffsetsPlayer - 1; i >= 0; --i)
+    struct Team* team = get_m(id);
+    unsigned int next = team->firstSlaveOffset;
+    free(team);
+
+    while (next != UINT_MAX)
     {
-        struct Player* player = get_s(dataOffsetsPlayer[i].index);
-        if (player &&
-            player->team_id == id)
-            delete_s(dataOffsetsPlayer[i].index);
-        free(player);
+        struct Player* temp = readPlayerByOffset(next);
+        next = temp->nextSlaveOffset;
+        deleteElement(dataOffsetsPlayer, &sizeDataOffsetsPlayer, temp->id);
+        printf("Player %i deleted\n", temp->id);
+        free(temp);
     }
 
     //delete index from index-offset table
@@ -431,7 +434,74 @@ void delete_s(unsigned int id)
         return;
     }
 
-    //delete index from index-offset table
+    if (sizeDataOffsetsPlayer == 1)
+    {
+        //delete index from index-offset table
+        struct Player* player = get_s(id);
+        struct Team* team = get_m(player->team_id);
+        team->firstSlaveOffset = UINT_MAX;
+        update_m(team);
+        free(team);
+        free(player);
+    }
+    else
+    {
+        unsigned int prevOffset = UINT_MAX;
+        unsigned int currOffset = UINT_MAX;
+        unsigned int nextOffset = UINT_MAX;
+
+        struct Player* curr = get_s(id);
+        for (int i = 0; i < sizeDataOffsetsPlayer; ++i)
+        {
+            if (dataOffsetsPlayer[i].index == id)
+            {
+                currOffset = dataOffsetsPlayer[i].offset;
+                struct Player* player = readPlayerByOffset(dataOffsetsPlayer[i].offset);
+                nextOffset = player->nextSlaveOffset;
+                free(player);
+                break;
+            }
+        }
+            
+        //find team
+        struct Team* team = NULL;
+        for (int i = 0; i < sizeDataOffsetsTeam; ++i)
+        {
+            team = get_m(dataOffsetsTeam[i].index);
+            if (team->id == curr->team_id)
+            {
+                break;
+            }
+        }
+
+        //if deleting first slave of master
+        if (team->firstSlaveOffset == currOffset)
+        {
+            team->firstSlaveOffset = nextOffset;
+            update_m(team);
+        }
+        //remember offset of first
+        else
+        {
+            prevOffset = team->firstSlaveOffset;
+            struct Player* prev = readPlayerByOffset(prevOffset);
+            while (
+                prev->nextSlaveOffset != currOffset &&
+                prev->nextSlaveOffset != UINT_MAX)
+            {
+                prevOffset = prev->nextSlaveOffset;
+                free(prev);
+                prev = readPlayerByOffset(prevOffset);
+            }
+
+            prev->nextSlaveOffset = nextOffset;
+            update_s(prev);
+            free(prev);
+        }
+        free(team);
+        free(curr);
+    }
+    
     deleteElement(dataOffsetsPlayer, &sizeDataOffsetsPlayer, id);
 
     //write it to file

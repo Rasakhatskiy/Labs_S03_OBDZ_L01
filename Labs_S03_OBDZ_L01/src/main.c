@@ -49,7 +49,7 @@ void demoInsertPlayer()
 	struct Player* player = malloc(sizeof(struct Player));
 
 	strncpy(player->birthday, "20.04.2000\0", MAX_STRING_DATE);
-	player->team_id = 1;
+	player->team_id = 2;
 	player->gender = 1;
 	player->player_number = 22;
 	strncpy(player->player_name, "Maksym Maksym Maksym\0", MAX_STRING_NAME);
@@ -89,7 +89,7 @@ void demoInsertPlayer()
 	insert_s(player);
 
 	strncpy(player->birthday, "11.11.2011\0", MAX_STRING_DATE);
-	player->team_id = 3;
+	player->team_id = 2;
 	player->gender = 0;
 	player->player_number = 123;
 	strncpy(player->player_name, "C\0", MAX_STRING_NAME);
